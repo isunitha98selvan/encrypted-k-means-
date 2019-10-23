@@ -10,7 +10,7 @@ nc = int(sys.argv[2])
 dp = int(sys.argv[3])
 dim = int(sys.argv[4])
 
-def datagen(numProcs=5, numClusters=4, numPoints=10, dim=1):
+def datagen(numProcs, numClusters, numPoints, dim):
     data = []
     dataRange = 1000
     for cluster in range(numClusters):
@@ -22,7 +22,7 @@ def datagen(numProcs=5, numClusters=4, numPoints=10, dim=1):
         variance = lambda : triangular(0.5*var, 1.5*var)
         for i in range(numPoints):
             data.append([int(gauss(mean[j],variance())) for j in range(dim)])
-    
+
     ## Clear Data Files
     for procNumber in range(numProcs):
         datafile = "data/horizontal-k-means/"+str(procNumber)+".in"

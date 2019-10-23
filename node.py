@@ -19,7 +19,7 @@ basePort = 8000
 broadcastPort = 9000
 broadSockets=[]
 leaderSocket = None
-verbose = True
+verbose = False
 
 procNumber = int(sys.argv[1])
 totalProcs = int(sys.argv[2])
@@ -50,7 +50,7 @@ else:
 timing = [time.time()]
 for iteration in range(iters): # iterate 20 times for now
     centroids = kmeans.getClusterCentroids()
-    print "Centroids: ", centroids
+    print "Centroids: ", centroids[0]
     newMeans = []
     for centroid, num in centroids:
         denom = getAddShares(procNumber, totalProcs, num, leaderSocket, replySocket, requestSocket, broadSockets)
@@ -61,8 +61,9 @@ for iteration in range(iters): # iterate 20 times for now
         val = centroid.getVector()
         for i in range(dimensions):
             num = getAddShares(procNumber, totalProcs, val[i], leaderSocket, replySocket, requestSocket, broadSockets)
-            newVal.append(num / (1 * denom))
+            newVal.append(long(num) / (1 *long(denom)))
         newMeans.append(DataPoint(dimensions, newVal))
+    print "New Means" , newMeans[0].val
     if verbose and not procNumber:
         print "[Process", str(procNumber)+"] iteration", iteration, ":", "kmeans: ", kmeans
     kmeans.updateMeans(newMeans)
@@ -72,12 +73,4 @@ if not procNumber:
     results = [float("%0.2f" % (timing[i+1]-timing[i])) for i in range(len(timing)-1)]
     print results
     print sorted(results)[len(results)/2]
-
-# requestSocket.unbind()
-# replySocket.disconnect()
-# if procNumber > 0:
-#     broadSockets[0].unbind()
-# else:
-#     for i in range(1,totalProcs):
-#         broadSockets[i-1].disconnect()
-# exit
+    exit(0)
