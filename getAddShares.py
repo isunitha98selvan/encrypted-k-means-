@@ -37,13 +37,15 @@ def getAddShares(procNumber, totalProcs, value, leaderSocket, replySocket, reque
         shares = [0 for i in range(totalProcs)]
         privateKey, publicKey  = generate_keypair(securityParameter)
         n = publicKey.n
-        print "Paillier Keys generated"
+        if verbose:
+            print "Paillier Keys generated"
         # print n
         #send public key to all parties
         for i in range(totalProcs-1):
             broadSockets[i].send(pickle.dumps(publicKey))
-        print "Public key distributed to all parties"
-        print "Public key : ", publicKey
+        if verbose:
+            print "Public key distributed to all parties"
+            print "Public key : ", publicKey
         #publicKey.encrypt(10)
         #requestSocket.send(str(value))
         requestSocket.send(str(encrypt(publicKey, value%n))) #send encrypted x0

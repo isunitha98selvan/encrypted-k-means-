@@ -1,4 +1,5 @@
 from datapoint import DataPoint
+import os
 verbose = False
 
 class KMeans:
@@ -30,12 +31,16 @@ class KMeans:
 	def allPoints(self, numClusters):
 		final_data = [[] for i in range(numClusters)]
 		for point in self.dataPoints:
-			final_data[point.getCluster()].append(point)
-		datafile = "result/clusters/"
-		if os.path.exists(datafile):
-			os.remove(datafile)
-		f = open(datafile, 'w')
+    		# print point.getCluster()
+			#final_data[point.getCluster()].append(point)
+			print "Helloo"
+			print point.getCluster().val
+
 		count = 0
+		# datafile = "result/clusters/" + str(count)+".in"
+		# if os.path.exists(datafile):
+		# 	os.remove(datafile)
+		# f = open(datafile, 'w')
 		for data in final_data:
 			count +=1
 			datafile = "result/clusters/"+str(count)+".in"

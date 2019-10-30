@@ -61,12 +61,16 @@ for iteration in range(iters): # iterate 20 times for now
         val = centroid.getVector()
         for i in range(dimensions):
             num = getAddShares(procNumber, totalProcs, val[i], leaderSocket, replySocket, requestSocket, broadSockets)
-            newVal.append(long(num) / (1 *long(denom)))
+            if long(denom)==0:
+                newVal.append(long(num))
+            else:
+                newVal.append(long(num) / (1 *long(denom)))
         newMeans.append(DataPoint(dimensions, newVal))
     print "New Means" , newMeans[0].val
     if verbose and not procNumber:
         print "[Process", str(procNumber)+"] iteration", iteration, ":", "kmeans: ", kmeans
     kmeans.updateMeans(newMeans)
+    kmeans.allPoints(clusters)
     timing.append(time.time())
 
 if not procNumber:
