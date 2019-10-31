@@ -50,7 +50,6 @@ else:
 timing = [time.time()]
 for iteration in range(iters): # iterate 20 times for now
     centroids = kmeans.getClusterCentroids()
-    print "Centroids: ", centroids[0]
     newMeans = []
     for centroid, num in centroids:
         denom = getAddShares(procNumber, totalProcs, num, leaderSocket, replySocket, requestSocket, broadSockets)
@@ -61,7 +60,8 @@ for iteration in range(iters): # iterate 20 times for now
         val = centroid.getVector()
         for i in range(dimensions):
             num = getAddShares(procNumber, totalProcs, val[i], leaderSocket, replySocket, requestSocket, broadSockets)
-            newVal.append(long(num) / (1 *long(denom)))
+            if long(denom)!= 0:
+                newVal.append(long(num) / (1 *long(denom)))
         newMeans.append(DataPoint(dimensions, newVal))
     print "New Means" , newMeans[0].val
     if verbose and not procNumber:
@@ -69,8 +69,12 @@ for iteration in range(iters): # iterate 20 times for now
     kmeans.updateMeans(newMeans)
     timing.append(time.time())
 
+kmeans.allPoints(clusters)
 if not procNumber:
     results = [float("%0.2f" % (timing[i+1]-timing[i])) for i in range(len(timing)-1)]
     print results
+    
+    print 'Clustering complete!\n\n'
+    print 'Check the result/clusters folder'
     print sorted(results)[len(results)/2]
     exit(0)
