@@ -31,14 +31,13 @@ class KMeans:
 		self.means = means
 
 	def allPoints(self, numClusters):
-		print 'halllaa'
 		points = []
 		centroids = []
-		print len(self.dataPoints)
 		for point in self.dataPoints:
 			if point.getCluster().val not in centroids:
 				centroids.append(point.getCluster().val)
 		temp = []
+		print 'Centroids:'
 		print centroids
 		for point in self.dataPoints:
 			temp.append(point.getCluster().val)

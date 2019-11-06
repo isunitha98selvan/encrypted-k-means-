@@ -32,7 +32,7 @@ if len(sys.argv)>3:
 context = zmq.Context()
 requestSocket = context.socket(zmq.REQ)
 replySocket = context.socket(zmq.REP)
-kmeans = KMeans(clusters, "data/horizontal-k-means/"+str(procNumber)+".in")
+kmeans = KMeans(clusters, "data/data"+str(procNumber)+".in")
 dimensions = kmeans.getDims()
 
 requestSocket.connect(clientPrefix + str(basePort+procNumber+1))
@@ -76,5 +76,4 @@ if not procNumber:
     
     print 'Clustering complete!\n\n'
     print 'Check the result/clusters folder'
-    print sorted(results)[len(results)/2]
     exit(0)
